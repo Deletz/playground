@@ -44,13 +44,26 @@ public class Application extends Controller {
 	public static Result printAll() {
 		List<Media> medias = new ArrayList<Media>();
 		
-		medias = JPA.em().createQuery("SELECT m FROM Media m").getResultList();
+		medias = JPA.em().createNamedQuery(Media.QUERY_FETCH_ALL).getResultList();
     	String result = "";
     	for(Media m : medias) {
     		result += m.toAlternateString() + "\n";
     	}
     	return ok(result);
 	}
+
+    @Transactional
+	public static Result findByNameWarrr() {
+		List<Media> medias = new ArrayList<Media>();
+		
+		medias = JPA.em().createNamedQuery(Media.QUERY_FIND_BY_NAME).setParameter(Media.PARAM_NAME, "warrr").getResultList();
+    	String result = "";
+    	for(Media m : medias) {
+    		result += m.toAlternateString() + "\n";
+    	}
+    	return ok(result);
+	}
+    
 
     
 
