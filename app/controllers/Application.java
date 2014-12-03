@@ -1,41 +1,57 @@
 package controllers;
 
-import play.mvc.*;
-import play.data.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import models.Media;
 import play.db.jpa.JPA;
-import static play.data.Form.*;
-
-import views.html.*;
-
-import models.*;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 /**
  * Manage a database of computers
  */
 public class Application extends Controller {
-    
- 
-    
-    /**
-     * Handle default path requests, redirect to computers list
-     */
-    public static Result index() {
-    	Media m = new Media();
-    	m.name = "bla";
-    	
-    	Media m2 = new Media();
-    	m.name = "warrr";
-    	try {
 
-        	JPA.em().persist(m);
-        	JPA.em().persist(m2);
-            	
-    	} catch (Exception ex) {
-    		throw ex;
+	/**
+	 * Handle default path requests, redirect to computers list
+	 */
+	@Transactional
+	public static Result index() {
+
+		return printAll();
+	}
+
+
+    @Transactional
+	public static Result createMedia() {
+		Media m = new Media();
+		m.name = "warrr";
+		try {
+
+			JPA.em().persist(m);
+
+		} catch (Exception ex) {
+			throw ex;
+		}
+
+		return ok(m.toAlternateString());
+	}
+    
+
+    @Transactional
+	public static Result printAll() {
+		List<Media> medias = new ArrayList<Media>();
+		
+		medias = JPA.em().createQuery("SELECT m FROM Media m").getResultList();
+    	String result = "";
+    	for(Media m : medias) {
+    		result += m.toAlternateString() + "\n";
     	}
-    	
-    	return ok();
-    }
+    	return ok(result);
+	}
+
+    
 
 }
-            
