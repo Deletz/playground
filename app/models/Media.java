@@ -1,11 +1,6 @@
 package models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 
 import play.db.jpa.JPA;
 
@@ -24,10 +19,13 @@ public class Media {
 
 	@Id
 	@GeneratedValue
-	public Long id;
+	public Long mId;
 
 	@Column(name = "name")
 	public String name;
+
+	@ManyToOne
+	public Folder inFolder;
 
 	public static Media findById(long id) {
 		return JPA.em().find(Media.class, id);
@@ -35,7 +33,7 @@ public class Media {
 
 	public String toAlternateString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("media { ").append("id :").append(id).append(", ")
+		sb.append("media { ").append("id :").append(mId).append(", ")
 				.append("name :").append(name).append(" }");
 		return sb.toString();
 	}

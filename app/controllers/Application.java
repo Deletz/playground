@@ -33,41 +33,37 @@ public class Application extends Controller {
 
 		Group_ g1 = new Group_();
 		g1.name = "Gruppe1";
-
 		Group_ g2 = new Group_();
 		g2.name = "Gruppe2";
 
-
-		Folder f = new Folder();
-		f.name = "root";
-		f.parent = null;
-		f.depth = 0;
-
 		Folder f1 = new Folder();
 		f1.name = "Ordner1";
-		f1.parent = f;
-		f1.depth = f1.parent.depth + 1;
+		f1.parent = Folder.findById(0);
+		f1.group = g1;
+		f1.depth = f1.parent.depth +1;
+		f1.create();
 
 		Folder f2 = new Folder();
 		f2.name = "Ordner2";
 		f2.parent = f1;
-		f2.depth = f2.parent.depth + 1;
+		f2.group = g1;
+		f2.depth = f2.parent.depth +1;
+		f2.create();
+
+		m1.inFolder = f1;
+		m2.inFolder = f1;
 
 		try {
-
 			JPA.em().persist(m1);
 			JPA.em().persist(m2);
-
-//			JPA.em().persist(g1);
-//			JPA.em().persist(g2);
-
-			JPA.em().persist(f);
-			JPA.em().persist(f1);
-			JPA.em().persist(f2);
-
+			JPA.em().persist(g1);
+			JPA.em().persist(g2);
 		} catch (Exception ex) {
 			throw ex;
 		}
+
+		f2.parent = Folder.findById(1);
+		f2.update();
 
 		return ok(m1.toAlternateString());
 	}
@@ -82,6 +78,16 @@ public class Application extends Controller {
     	for(Media m : medias) {
     		result += m.toAlternateString() + "\n";
     	}
+
+		result += "\n\n";
+
+		List<Folder> folders = new ArrayList<Folder>();
+
+		folders = JPA.em().createNamedQuery(Folder.QUERY_FIND_BY_NAME).setParameter(Folder.PARAM_NAME, "Ordner2").getResultList();
+		for(Folder f : folders) {
+			result += f.getPath();
+		}
+
     	return ok(result);
 	}
 
