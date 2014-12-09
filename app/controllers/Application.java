@@ -8,6 +8,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.main;
 
 /**
  * Manage a database of computers
@@ -20,14 +21,14 @@ public class Application extends Controller {
 	@Transactional
 	public static Result index() {
 
-		return printAll();
+		return printAll(null);
 	}
 
 
     @Transactional
-	public static Result createMedia() {
+	public static Result createMedia(String name) {
 		Media m = new Media();
-		m.name = "warrr";
+		m.name = name;
 		try {
 
 			JPA.em().persist(m);
@@ -36,12 +37,12 @@ public class Application extends Controller {
 			throw ex;
 		}
 
-		return ok(m.toAlternateString());
+		return printAll("Media '" + m.name + "' hinzugefügt");
 	}
     
 
     @Transactional
-	public static Result printAll() {
+	public static Result printAll(String messages) {
 		List<Media> medias = new ArrayList<Media>();
 		
 		medias = JPA.em().createNamedQuery(Media.QUERY_FETCH_ALL).getResultList();
@@ -49,7 +50,7 @@ public class Application extends Controller {
     	for(Media m : medias) {
     		result += m.toAlternateString() + "\n";
     	}
-    	return ok(result);
+    	return ok(main.render(medias, messages));
 	}
 
     @Transactional

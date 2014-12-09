@@ -1,4 +1,4 @@
-@(content: Html)
+@(mediaList: List[Media], messages: String)
 
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,17 @@
         </header>
         
         <section id="main">
-            @content
+
+            <h3>
+                <strong>
+                    @messages
+                </strong>
+            </h3>
+            <ul>
+                @for(media <- mediaList) {
+                    <li>@media.toAlternateString()</li>
+                }
+            </ul>
         </section>
         
     </body>
