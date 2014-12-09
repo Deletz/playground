@@ -1,0 +1,23 @@
+@(medias: List[Media])
+@main {
+    <h1>
+        <p>
+        @for(m <- medias) {
+            @* @m.mId -- @m.name <br> *@
+            @m.toAlternateString() <br>
+        }
+        </p>
+    </h1>
+
+
+    <div>
+        @*<a class="btn success" id="add" href="@routes.Application.show()" target="_blank">Show PDF</a>*@
+        <a class="btn success" href="@routes.Application.index()">index</a>
+        <a class="btn success" href="@routes.Application.createMedia()">createMedia</a>
+        <a class="btn success" href="@routes.Application.listMediaInFolder()">Folder</a>
+        <a class="btn success" href="@routes.Application.createMoreMedia()">createMoreMedia</a>
+
+    </div>
+
+
+}

@@ -4,6 +4,9 @@ import javax.persistence.*;
 import models.base.BaseModel;
 import play.db.jpa.JPA;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by meichris on 02.12.14.
  */
@@ -33,8 +36,11 @@ public class Folder extends BaseModel{
     @ManyToOne
     public Group_ group;
 
-//    @OneToMany
-//    public Set<Media> files;
+    @OneToMany(mappedBy = "inFolder")
+    public List<Media> files;
+
+    @OneToMany(mappedBy = "parent")
+    public List<Folder> childs;
 
     public static Folder findById(long id) {
         return JPA.em().find(Folder.class, id);
@@ -45,12 +51,7 @@ public class Folder extends BaseModel{
         try {
             JPA.em().persist(this);
         } catch (Exception e) {
-            try {
-                throw e;
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
+            //Blabla
         }
     }
 
@@ -61,6 +62,7 @@ public class Folder extends BaseModel{
 
     @Override
     public void delete() {
+        if (this.isEmpty())
             JPA.em().remove(this);
     }
 
@@ -68,11 +70,18 @@ public class Folder extends BaseModel{
         String result = "";
         String tmp = "";
         Folder f = this;
-        while (f.depth > 0) {
+        while (f.depth > 1) {
             tmp = f.name;
             result = tmp.concat("/").concat(result);
             f = f.parent;
         }
+        return result;
+    }
+
+    public boolean isEmpty() {
+        boolean result = false;
+        if (this.files.isEmpty())
+            result = true;
         return result;
     }
 }
