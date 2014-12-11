@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 
+import models.base.BaseModel;
 import play.db.jpa.JPA;
 
 @Entity
@@ -11,15 +12,12 @@ import play.db.jpa.JPA;
 				+ Media.PARAM_NAME + " ORDER BY m.name"),
 
 })
-public class Media {
+public class Media extends BaseModel {
 
 	public static final String QUERY_FETCH_ALL = "Media.fetchAll";
 	public static final String QUERY_FIND_BY_NAME = "Media.findByName";
 	public static final String PARAM_NAME = "param_name";
 
-	@Id
-	@GeneratedValue
-	public Long mId;
 
 	@Column(name = "name")
 	public String name;
@@ -31,9 +29,28 @@ public class Media {
 		return JPA.em().find(Media.class, id);
 	}
 
+	@Override
+	public void create() {
+		try {
+			JPA.em().persist(this);
+		} catch (Exception e) {
+			//Blabla
+		}
+	}
+
+	@Override
+	public void update() {
+		JPA.em().merge(this);
+	}
+
+	@Override
+	public void delete() {
+			JPA.em().remove(this);
+	}
+
 	public String toAlternateString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("media { ").append("id :").append(mId).append(", ")
+		sb.append("media { ").append("id :").append(id).append(", ")
 				.append("name :").append(name).append(" }");
 		return sb.toString();
 	}

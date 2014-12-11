@@ -1,23 +1,22 @@
-@(folder: String, medias: List[Media])
+@(path: String, folders: List[Folder], medias: List[Media], ID: Long)
 @main {
 
     <h1>
         <p>
-        @folder <br>
+        @path <br>
+            @for(f <- folders) {
+                @f.toAlternateString() <br>
+            }
         @for(m <- medias) {
             @m.toAlternateString() <br>
         }
         </p>
     </h1>
 
-
     <div>
         <a class="btn success" href="@routes.Application.index()">index</a>
-        <a class="btn success" href="@routes.Application.createMedia()">createMedia</a>
-        <a class="btn success" href="@routes.Application.listMediaInFolder()">Folder</a>
-        <a class="btn success" href="@routes.Application.createMoreMedia()">createMoreMedia</a>
-
+        <a class="btn success" href="@routes.Application.createMedia(ID)">createMedia</a>
+        <a class="btn success" href="@routes.Application.createFolder(ID)">createFolder</a>
     </div>
-
 
 }

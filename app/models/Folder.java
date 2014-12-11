@@ -3,26 +3,21 @@ package models;
 import javax.persistence.*;
 import models.base.BaseModel;
 import play.db.jpa.JPA;
-
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by meichris on 02.12.14.
  */
 
 @Entity
-//@Table(uniqueConstraints=@UniqueConstraint(columnNames={"name", "parent"}))
 @NamedQueries({
         @NamedQuery(name = Folder.QUERY_FETCH_ALL, query = "SELECT f FROM Folder f ORDER BY f.name"),
-        @NamedQuery(name = Folder.QUERY_FIND_BY_NAME, query = "SELECT f FROM Folder f WHERE f.name = :"
-                    + Folder.PARAM_NAME + " ORDER BY f.name"),
+        @NamedQuery(name = Folder.QUERY_FIND_ALL_GROUPFOLDER, query = "SELECT f FROM Folder f WHERE f.depth = 0"),
 })
 public class Folder extends BaseModel{
 
     public static final String QUERY_FETCH_ALL = "Folder.fetchAll";
-    public static final String QUERY_FIND_BY_NAME = "Folder.findByName";
-    public static final String PARAM_NAME = "param_name";
+    public static final String QUERY_FIND_ALL_GROUPFOLDER = "Folder.findAllGroupFolder";
 
     @Column(name = "name")
     public String name;
@@ -83,6 +78,13 @@ public class Folder extends BaseModel{
         if (this.files.isEmpty())
             result = true;
         return result;
+    }
+
+    public String toAlternateString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("folder { ").append("id :").append(id).append(", ")
+                .append("name :").append(name).append(" }");
+        return sb.toString();
     }
 }
 

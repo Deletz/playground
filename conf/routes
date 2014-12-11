@@ -3,13 +3,13 @@
 # ~~~~
 
 # Default path will just redirect to the computer list
-GET        /                    controllers.Application.index()
-#GET     /find                controllers.Application.findByNameWarrr()
-GET        /create              controllers.Application.createMedia()
-GET        /createMore          controllers.Application.createMoreMedia()
-GET        /folder              controllers.Application.listMediaInFolder()
+GET        /                              controllers.Application.index()
+
+GET        /folder/:id                    controllers.Application.listMediaInFolder(id:Long)
+GET        /folder/:id/createMedia        controllers.Application.createMedia(id:Long)
+GET        /folder/:id/createFolder       controllers.Application.createFolder(id:Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
+GET        /assets/*file                  controllers.Assets.at(path="/public", file)
 

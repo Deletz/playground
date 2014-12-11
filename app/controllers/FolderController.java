@@ -50,10 +50,10 @@ public class FolderController {
         return allow;
     }
 
-//    public static boolean isTableEmpty() {
-//        boolean isEmpty = false;
-//
-//        return isEmpty;
-//    }
+    public static Long getGroupFolder(String argGroupName) {
+        List<Folder> f = JPA.em().createNamedQuery(Folder.QUERY_FIND_ALL_GROUPFOLDER).getResultList();
+        return f.get(0).id;
+    }
+
 
 }
