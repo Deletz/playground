@@ -70,6 +70,8 @@ public class Application extends Controller {
 		Folder folder = f;
 		List<Folder> path = new ArrayList<Folder>();
 		List<Folder> pathTemp = new ArrayList<Folder>();
+		if (f == null)
+			return redirectFolderError("Ordner nicht vorhanden, wählen Sie einen anderen!");
 		while (f.depth > 1) {
 			pathTemp.add(f);
 			f = f.parent;
@@ -80,7 +82,13 @@ public class Application extends Controller {
 	}
 
 
+
+
 	public static Result redirectFolder(Long folderID) {
 		return redirect("/folder/" + folderID);
+	}
+
+	public static Result redirectFolderError(String error) {
+		return ok(views.html.test.render(error));
 	}
 }
