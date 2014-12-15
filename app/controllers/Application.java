@@ -63,21 +63,22 @@ public class Application extends Controller {
 		return ok(views.html.list.render(folder,media));
 	}
 
+
 	@Transactional
 	public static Result listFolder(Long folderID) {
 		Folder f = Folder.findById(folderID);
+		Folder folder = f;
 		List<Folder> path = new ArrayList<Folder>();
 		List<Folder> pathTemp = new ArrayList<Folder>();
-		List<Media> media = f.files;
-		List<Folder> folder = f.childs;
 		while (f.depth > 1) {
 			pathTemp.add(f);
 			f = f.parent;
 		}
 		for (int i = pathTemp.size()-1; i >= 0; i--)
 			path.add(pathTemp.get(i));
-		return ok(views.html.folder.render(path,folder,media,folderID));
+		return ok(views.html.folder.render(path,folder));
 	}
+
 
 	public static Result redirectFolder(Long folderID) {
 		return redirect("/folder/" + folderID);

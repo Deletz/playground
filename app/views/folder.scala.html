@@ -1,4 +1,4 @@
-@(path: List[Folder], folders: List[Folder], medias: List[Media], ID: Long)
+@(path: List[Folder], folder: Folder)
 @main {
 
     <h1>
@@ -7,10 +7,10 @@
                 <a href="@routes.Application.listFolder(p.id)">@p.name/</a>
             }
             <br><br>
-            @for(f <- folders) {
+            @for(f <- folder.childs) {
                 @f.toAlternateString() <br>
             }
-        @for(m <- medias) {
+        @for(m <- folder.files) {
             @m.toAlternateString() <br>
         }
         </p>
@@ -18,8 +18,8 @@
 
     <div>
         <a class="btn success" href="@routes.Application.index()">index</a>
-        <a class="btn success" href="@routes.Application.createMedia(ID)">createMedia</a>
-        <a class="btn success" href="@routes.Application.createFolder(ID)">createFolder</a>
+        <a class="btn success" href="@routes.Application.createMedia(folder.id)">createMedia</a>
+        <a class="btn success" href="@routes.Application.createFolder(folder.id)">createFolder</a>
     </div>
 
 }
