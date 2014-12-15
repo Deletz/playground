@@ -28,7 +28,9 @@ public class Media extends BaseModel {
 	public static Media findById(long id) {
 		return JPA.em().find(Media.class, id);
 	}
-
+	/*
+    Creates a media model
+    */
 	@Override
 	public void create() {
 		try {
@@ -37,17 +39,24 @@ public class Media extends BaseModel {
 			//Blabla
 		}
 	}
-
+	/*
+    Updates a media model
+    */
 	@Override
 	public void update() {
 		JPA.em().merge(this);
 	}
-
+	/*
+    Deletes a media model
+    */
 	@Override
 	public void delete() {
 			JPA.em().remove(this);
 	}
-
+	/*
+    Returns a string consisting a medias name and its id
+    @return a string consisting a medias name and its id
+    */
 	public String toAlternateString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("media { ").append("id :").append(id).append(", ")

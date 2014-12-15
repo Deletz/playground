@@ -14,7 +14,15 @@ import java.util.List;
  */
 public class FolderController {
 
-
+    /*
+    Creates a folder and returns its ID
+    
+    @param argName The folders name
+    @param argParentId The folders parent ID
+     
+    @return The folders ID
+    
+    * */
     public static Long createFolder(String argName, Long argParentId) {
         Folder f = new Folder();
         if (allowToCreate(argName,argParentId)) {
@@ -29,6 +37,13 @@ public class FolderController {
         return f.id;
     }
 
+    /*
+    Lists the media stored in a certain folder
+
+    @param ardId The folders ID
+
+    @return the media stored in the folder
+    */
     public static List<Media> getAllMediaInFolder(Long argId){
         List<Media> medias = new ArrayList<Media>();
         try {
@@ -40,6 +55,14 @@ public class FolderController {
         return medias;
     }
 
+    /*
+    Checks whether it is allowed or not to create a new folder
+
+    @param argName The folders name
+    @param argParentId The folders parent ID
+
+    @return true if there isn't allready a folder with the same name, false if there is.
+    */
     private static boolean allowToCreate(String argName, Long argParentId) {
         boolean allow = true;
         List<Folder> folders = Folder.findById(argParentId).childs;
@@ -50,6 +73,14 @@ public class FolderController {
         return allow;
     }
 
+    /*
+    Returns a list of all folders belonging to a certain group.
+    The group is identified by the delivered group name
+
+    @param argGroupName The delivered group name
+
+    @return A list of all folders belonging to the group.
+    */
     public static Long getGroupFolder(String argGroupName) {
         List<Folder> f = JPA.em().createNamedQuery(Folder.QUERY_FIND_ALL_GROUPFOLDER).getResultList();
         return f.get(0).id;

@@ -29,7 +29,9 @@ public class Group_ extends BaseModel{
     public static Group_ findById(long id) {
         return JPA.em().find(Group_.class, id);
     }
-
+    /*
+    Creates a group model
+    */
     @Override
     public void create() {
         try {
@@ -38,17 +40,24 @@ public class Group_ extends BaseModel{
             //Blabla
         }
     }
-
+    /*
+    Updates a group model
+    */
     @Override
     public void update() {
         JPA.em().merge(this);
     }
-
+    /*
+    Deletes a group model
+    */
     @Override
     public void delete() {
             JPA.em().remove(this);
     }
-
+    /*
+    Returns a certain group, definded by the delivered grup name
+    @return null if this group doesn't exist, the group if it exists
+    */
     public static Group_ findByTitle(String argName) {
         @SuppressWarnings("unchecked")
         List<Group_> groups = (List<Group_>) JPA.em()

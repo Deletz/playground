@@ -41,6 +41,9 @@ public class Folder extends BaseModel{
         return JPA.em().find(Folder.class, id);
     }
 
+    /*
+    Creates a folder model
+    */
     @Override
     public void create() {
         try {
@@ -49,18 +52,26 @@ public class Folder extends BaseModel{
             //Blabla
         }
     }
-
+    /*
+    Updates a folder model
+    */
     @Override
     public void update() {
         JPA.em().merge(this);
     }
 
+    /*
+    Deletes a folder model
+    */
     @Override
     public void delete() {
         if (this.isEmpty())
             JPA.em().remove(this);
     }
-
+    /*
+    Reurns the path of the folder
+    @return Formatted path of the Folder
+    */
     public String getPath() {
         String result = "";
         String tmp = "";
@@ -72,14 +83,20 @@ public class Folder extends BaseModel{
         }
         return result;
     }
-
+    /*
+    Checks whether the folder is empty
+    @return true if empty, false if not
+    */
     public boolean isEmpty() {
         boolean result = false;
         if (this.files.isEmpty())
             result = true;
         return result;
     }
-
+    /*
+    Returns a string consisting a folders name and its id
+    @return a string consisting a folders name and its id
+    */
     public String toAlternateString() {
         StringBuilder sb = new StringBuilder();
         sb.append("folder { ").append("id :").append(id).append(", ")
