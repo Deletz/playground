@@ -42,7 +42,7 @@ public class Application extends Controller {
     @Transactional
 	public static Result createMedia(Long folderID) {
 		MediaController.createMedia(UUID.randomUUID().toString(),folderID);
-		return redirect("/folder/" + folderID);
+		return redirectFolder(folderID);
 	}
 
 	@Transactional
@@ -53,7 +53,7 @@ public class Application extends Controller {
 //		Long folder = Long.valueOf(uri.substring(index));
 
 		FolderController.createFolder("Ordner xyz", folderID);
-		return redirect("/folder/" + folderID);
+		return redirectFolder(folderID);
 	}
 
     @Transactional
@@ -64,15 +64,22 @@ public class Application extends Controller {
 	}
 
 	@Transactional
-	public static Result listMediaInFolder(Long folderID) {
-		String path = "";
-		try {
-			path = Folder.findById(folderID).getPath();
-		} catch (NullPointerException e) {
-			path = "Fehler !!!! Kein Ordner vorhanden";
+	public static Result listFolder(Long folderID) {
+		Folder f = Folder.findById(folderID);
+		List<Folder> path = new ArrayList<Folder>();
+		List<Folder> pathTemp = new ArrayList<Folder>();
+		List<Media> media = f.files;
+		List<Folder> folder = f.childs;
+		while (f.depth > 1) {
+			pathTemp.add(f);
+			f = f.parent;
 		}
-		List<Media> media = FolderController.getAllMediaInFolder(folderID);
-		List<Folder> folder = Folder.findById(folderID).childs;
+		for (int i = pathTemp.size()-1; i >= 0; i--)
+			path.add(pathTemp.get(i));
 		return ok(views.html.folder.render(path,folder,media,folderID));
+	}
+
+	public static Result redirectFolder(Long folderID) {
+		return redirect("/folder/" + folderID);
 	}
 }

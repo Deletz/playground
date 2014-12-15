@@ -1,9 +1,12 @@
-@(path: String, folders: List[Folder], medias: List[Media], ID: Long)
+@(path: List[Folder], folders: List[Folder], medias: List[Media], ID: Long)
 @main {
 
     <h1>
         <p>
-        @path <br>
+            @for(p <- path) {
+                <a href="@routes.Application.listFolder(p.id)">@p.name/</a>
+            }
+            <br><br>
             @for(f <- folders) {
                 @f.toAlternateString() <br>
             }

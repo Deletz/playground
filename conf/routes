@@ -5,7 +5,7 @@
 # Default path will just redirect to the computer list
 GET        /                              controllers.Application.index()
 
-GET        /folder/:id                    controllers.Application.listMediaInFolder(id:Long)
+GET        /folder/:id                    controllers.Application.listFolder(id:Long)
 GET        /folder/:id/createMedia        controllers.Application.createMedia(id:Long)
 GET        /folder/:id/createFolder       controllers.Application.createFolder(id:Long)
 
