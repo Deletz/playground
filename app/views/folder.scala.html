@@ -4,11 +4,11 @@
     <h1>
         <p>
             @for(p <- path) {
-                <a href="@routes.Application.listFolder(p.id)">@p.name/</a>
+                <a href="@routes.Application.listFolder(p.id)">@p.name</a> /
             }
             <br><br>
             @for(f <- folder.childs) {
-                @f.toAlternateString() <br>
+                <a href="@routes.Application.listFolder(f.id)">@f.toAlternateString()</a><br>
             }
         @for(m <- folder.files) {
             @m.toAlternateString() <br>

@@ -3,7 +3,7 @@
     <h1>
         <p>
             @for(f <- folders) {
-                @f.toAlternateString() <br>
+                <a href="@routes.Application.listFolder(f.id)">@f.toAlternateString()</a><br>
             }
             <br>
             @for(m <- medias) {
