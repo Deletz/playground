@@ -55,7 +55,8 @@ public class Application extends Controller {
 
         return printAll();
     }
-    
+
+	@Transactional
 	public static Result createMedia(Long folderID) {
 		MediaController.createMedia(UUID.randomUUID().toString(),folderID);
 		return redirectFolder(folderID);
